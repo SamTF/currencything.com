@@ -1,0 +1,232 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+body {
+    /* BACKGROUND IMAGE */
+    background-image: url('/static/images/bg_worms_lowres.png');
+    background-position: center;
+    background-size: 150%;
+
+    /* FONT */
+    /* font-family: 'Quicksand', sans-serif; */
+    font-family: 'Comic Sans MS', sans-serif;
+    font-size: 2.2vmin;
+}
+
+h1 {
+    font-size: 6vmin;
+    text-align: center;
+    color: white;
+
+    /* consistent h1 style from other webpages */
+    text-decoration: underline aquamarine;
+    text-transform: lowercase;
+    letter-spacing: 2px;
+}
+
+hr {
+    /* margin: 0 20%; */
+    border: 3px white solid;
+    border-radius: 5px;
+}
+
+a {
+    text-decoration: none;
+    /* color: cornflowerblue; */
+    color: inherit;
+}
+
+.page-layout {
+    display: grid;
+    grid-template-columns: 20% 1fr 20%;
+    place-items: center;
+}
+
+.table-container {
+    /* CENTERING THE TABLE */
+    display: grid;
+    place-items: center;
+}
+
+/* MAIN TABLE */
+.blockchain-table {
+    /* Border */
+    border-collapse: collapse;
+    /* only the top-left and top-right have a round border */
+    border-radius: 15px 15px 0 0;
+    /* hides the background that goes beyond the border radius to make the radius actually do something */
+    overflow: hidden;
+
+    /* Margin */
+    margin: 4vmin 0;
+
+    width: 50vw;
+    min-width: 400px;
+
+    /* Shadow */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+
+    /* COLOURS */
+    background: #ffffff25;
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(3px);    
+}
+
+/* TABLE HEADERS */
+.blockchain-table th {
+    background: #f15050;
+    color: white;
+    
+    text-align: left;
+    /* font-size: 1.5rem; */
+    font-size: 2.5vmin;
+    font-weight: bold;
+}
+
+/* TABLE HEADERS !!AND!! TABLE DATA */
+.blockchain-table th, .blockchain-table td {
+    padding: 5px 15px;
+}
+
+/* TABLE ROWS */
+.blockchain-table tr {
+    border-bottom: 2px solid #ee333325;
+    /* font-weight: 500; */
+}
+
+/* ONLY EVEN TABLE ROWS - WOW! */
+.blockchain-table tr:nth-of-type(even) {
+    background: #f150501f;
+}
+/* THE LAST ROW */
+.blockchain-table tr:last-of-type {
+    border-bottom: 10px solid #f15050;
+}
+
+.blockchain-table tr:hover {
+    color: white;
+    background: #f1505079;
+}
+
+
+/* BUTTONS */
+.buttons-container {
+    display: grid;
+    place-items: center;
+}
+
+.buttons {
+    
+}
+
+.button {
+    /* FONT */
+    font-family: 'Quicksand', sans-serif;
+    font-size: 1.5rem;
+    color: white;
+
+    background: #f15050;
+    border: none;
+    border-radius: 5px;
+
+    /* padding: 4px 10px; */
+    padding: 4px 15px 10px 15px;
+    margin: 0 10px;
+
+    /* Shadow */
+    box-shadow: 0 0 20px rgba(0, 0, 0, 1);
+
+    cursor: pointer;
+
+    transition: all 200ms;
+}
+
+.button-disabled {
+    filter: opacity(0.5);
+    cursor: not-allowed;
+}
+
+.button:hover {
+    transform: scale(1.3);
+}
+
+.page-number {
+    display: inline-block;
+
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+
+/* STATISTIC CARDS */
+.currency-stats {
+    /* GRID LAYOUT */
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(20vw, 1fr));
+}
+.stat-card {
+    /* GRID */
+    display: grid;
+    place-items: center;
+
+    /* COLOUR & DESIGN*/
+    background-color: #E52B50;
+    border-bottom: white 8px solid;
+    border-radius: 15px 15px 0px 0px;
+}
+.stat-card h2 {
+    /* Text */
+    font-size: 2vmin;
+    font-weight: normal;
+    text-align: left;
+
+    color: white;
+
+    /* Margin */
+    margin: 2% 10%;
+}
+
+
+/* GRAPHS */
+.graph-container {
+    /* COLOUR & DESIGN*/
+    background: rgba(0, 0, 0, 0.7);
+    border-bottom: #E52B50 8px solid;
+    border-radius: 0px 0px 15px 15px;
+
+    /* GRID */
+    display: grid;
+    place-items: center;
+}
+.graph {
+    max-height: 35vh;
+}
+
+
+
+/* FIXED POSITION LOGO */
+.logo {
+    position: fixed;
+    top: 2vmin;
+    left: 2vmin;
+
+    height: 8vh;
+
+    filter: drop-shadow(0px 10px 30px black);
+}
+
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 800px) {
+    .logo {
+        visibility: hidden;
+    }
+
+    .page-layout {
+        display: grid;
+        grid-template-columns: 2% 1fr 2%;
+        place-items: center;
+    }
+}

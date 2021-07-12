@@ -1,0 +1,82 @@
+<!-- https://stackoverflow.com/questions/48552343/how-can-i-execute-a-python-script-from-an-html-button/48552490 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/flaskstyle.css') }}">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <title>Currency Thing Blockchain Explorer</title>
+</head>
+
+<body class="page-layout">
+    <section title="left-margin"></section>
+
+    <!-- MAIN SECTION -->
+    <section>
+        <img src="/static/images/avatars/840976021687762955.png" class="logo" title="what is this, some kinda currency thing?">
+        <h1>currency thing blockchain explorer</h1>
+        
+        <section class="currency-stats">
+            <div id='stat-panel'>
+                <div class="stat-card">
+                    <h2>...<b>{{STATS['supply']}}</b> currency things in the wild</h2>
+                </div>
+                <div class="graph-container">
+                    <img src="/static/graphs/line_chart.svg" alt="line_chart.svg" class="graph">
+                </div>
+            </div>
+            <div class="stat-card">
+                <h2>...<b>{{STATS['mined']}}</b> currency things mined in the last 24h</h2>
+            </div>
+            <div class="stat-card">
+                <h2>...<b>{{STATS['trades']}}</b> trades in the last 24h</h2>
+            </div>
+            <div class="stat-card">
+                <h2>...<b>{{STATS['user_trades']}}</b> user trades in the last 24h</h2>
+            </div>
+            <div class="stat-card">
+                <h2>...<b>{{STATS['user_num']}}</b> people holding</h2>
+            </div>
+            <div class="stat-card">
+                <h2>...<b>{{STATS['biggest']}}</b> currency things was the biggest trade in the last 24h</h2>
+            </div>
+        </section>
+
+        <hr>
+        <br>
+
+        <div class="table-container">
+            {{TABLE}}
+        </div>
+
+        <div class="buttons-container">
+            <div class="buttons">
+                <button class="button" id='frst-page'> ⏮ </button>
+                <button class="button" id='prev-page'>⏴</button>
+                <p class="page-number">#</p>
+                <button class="button" id="next-page">⏵</button>
+                <button class="button" id='last-page'> ⏭ </button>
+            </div>
+        </div>
+
+        <br><br><br>
+
+    </section>
+    
+
+    <section title="right-margin"></section>
+
+
+
+    <script>
+        $('.graph').hide();
+
+        $('#stat-panel').click(function() {
+            $(this).find('.graph').toggle(500);
+        })
+    </script>
+    
+</body>
+</html>
