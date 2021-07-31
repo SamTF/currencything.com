@@ -2,16 +2,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Meta Tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flaskstyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
 
+    <!-- Tab Icon : https://realfavicongenerator.net/ -->
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="icon" type="image/png" href="/static/favicon.png">
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Tab Title -->
     <title>{{USERNAME}}'s' page</title>
 </head>
 <body>
-    <section title="left-margin"></section>
+    <!-- TOP ANCHOR -->
+    <div id="top"></div>
 
-    <section title="content">
-    <img src="/static/images/avatars/840976021687762955.png" class="logo" title="what is this, some kinda currency thing?">
+    <!-- CURRENCY THING LOGO -->
+    <a href="/"><img src="/static/images/avatars/840976021687762955.png" class="logo" title="what is this, some kinda currency thing?"></a>
+
+    <!-- USER PROFILE -->
     <section class="user-profile shadow">
         <div class="avatar-container">
             <img src="/static/images/avatars/{{USER_ID}}.png" class="avatar">
@@ -23,37 +39,75 @@
                 <p class="balance">has {{STATS['balance']}} currency things</p>
             </div>
 
+            <!-- USER STATS -->
             <div class="stats">
-                <div>
-                    <h2>...has mined <b>{{STATS['mined']}}</b> things</h2>
-                    <h2>...has received <b>{{STATS['received']}}</b> things</h2>
-                    <h2>...has sent <b>{{STATS['sent']}}</b> things</h2>
-                </div>
-
-                <div>
-                    <h2>...participated in <b>{{STATS['trades']}}</b> trades</h2>
-                    <h2>...biggest gift sent was <b>{{STATS['big_sent']}}</b> things</h2>
-                    <h2>...biggest gift received was <b>{{STATS['big_received']}}</b> things</h2>
-                </div>
+                <div><h2>...has mined <b>{{STATS['mined']}}</b> things</h2></div>
+                <div><h2>...has received <b>{{STATS['received']}}</b> things</h2></div>
+                <div><h2>...has sent <b>{{STATS['sent']}}</b> things</h2></div>
+                <div><h2>...participated in <b>{{STATS['trades']}}</b> trades</h2></div>
+                <div><h2>...biggest gift sent was <b>{{STATS['big_sent']}}</b> things</h2></div>
+                <div><h2>...biggest gift received was <b>{{STATS['big_received']}}</b> things</h2></div>
             </div>
         </div>
     </section>
 
-    <div class="graph-grid">
-        <img src="/static/graphs/networth.svg" class="graph-container shadow">
-    <div>
+    <p style="color: white; text-align: center;">Welcome to {{USERNAME}}'s currency thing page!</p>
 
-    <div style="display: grid; place-items: center;">
-        <p style="color: white;">Welcome to {{USERNAME}}'s currency thing page!</p>
-        <br><br>
+    <!-- USER GRAPHS -->
+    <section class="page-layout">
+
+        <!-- LEFT MARGIN -->
+        <section id='left-margin'></section>
+
+        <!-- CURRENCY GRAPHS -->
+        <section class="currency-stats">
+        
+            <!-- NETWORTH OVER TIME -->
+            <div class='stat-panel'>
+                <!-- Statistic Text Box -->
+                <div class="stat-card blue">
+                    <h2>networth</h2>
+                </div>
+
+                <!-- Expanded Graph -->
+                <div class="graph-container">
+                    <img src="/static/graphs/networth.svg" alt="line_chart.svg" class="graph">
+                </div>
+            </div>
+
+            <!-- TRADES OVER TIME -->
+            <div class='stat-panel'>
+                <div class="stat-card purple">
+                    <h2>trades</h2>
+                </div>
+                <div class="graph-container">
+                    <img src="/static/graphs/tx.svg" alt="line_chart.svg" class="graph">
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT MARGIN -->
+        <section id='right-margin'></section>
+    </section>
+
+    <div class="table-container">
         {{TABLE}}
     </div>
 
-
-    <br><br><br>
+    <!-- SCROLL BUTTONS -->
+    <section class="anchor-buttons">
+        <a href="#top"      id="scroll-up"  ><img src="/static/images/up_arrow_2.png"   height="64px" class="pixel-art"></a>
+        <a href="#bottom"   id='scroll-down'><img src="/static/images/down_arrow_2.png" height="64px" class="pixel-art"></a>
     </section>
 
-    <section title="right-margin"></section>
+    <!-- BOTTOM ANCHOR -->
+    <div id="bottom"></div>
+
+
+    <br><br><br>
+
+    <script src="/static/js/graph_toggle.js"></script>
     
 </body>
 </html>

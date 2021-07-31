@@ -9,7 +9,7 @@ BLOCKCHAIN = 'block.chain'              # the name of the local blockchain file 
 CREATOR_ID = 840976021687762955         # The User that sends rewards to miners
 
 
-### THE BLOCKCHAIN CLASS
+###### THE BLOCKCHAIN CLASS ##############################################################################################################
 class Blockchain:
 
     # Initialising the class
@@ -19,7 +19,8 @@ class Blockchain:
         self.chain['TIME'] = pd.to_datetime(self.chain['TIME'])                         # Converts the TIME column into datetime format
     
     
-    ### GENERAL STATS ######
+
+    ###### GENERAL STATS #################################################################################################################
 
     # Gets the total amount of currency things in circulation / the amount mined
     def get_supply(self) -> int:
@@ -51,63 +52,78 @@ class Blockchain:
         return mined_filtered
     
     
-    def get_trades_by_time(self, hours:int = 24) -> pd.DataFrame:
+    def get_trades_by_time(self, days:int = 1) -> pd.DataFrame:
         '''
-        Returns the trades that occured in the last X hours.
+        Returns the trades that occured in the last X days.
 
-        hours: amount of hours to subtract from current time. (default = 24)
+        days: amount of days to subtract from current datetime. (default = 1)
         '''
-        date = datetime.now() - timedelta(hours=hours)                                  # Gets the datetime value a specified amount of hours ago
+        date = datetime.now() - timedelta(days=days)                                    # Gets the datetime value a specified amount of hours ago
         filter = self.chain.loc[self.chain['TIME'] > date]                              # Gets all blockchain trades with a time greater than that value
 
         return filter
     
 
-    def get_things_mined_by_time(self, hours:int = 24) -> int:
+    def get_things_mined_by_time(self, days:int = 1) -> int:
         '''
-        Returns the amount of currency things mined in the last h hours.
+        Returns the total amount of currency things mined in the last X days as an INT.
 
-        hours: amount of hours to subtract from current time. (default = 24)
+        days: amount of days to subtract from current datetime. (default = 1)
         '''
-        rows = self.get_trades_by_time(hours)                                           # Gets all the trades that occured in the last specified hours
+        rows = self.get_trades_by_time(days) if days else self.chain                    # checks entire blockchain, or last few days if "days" value is specified
         mined = rows.loc[rows['INPUT'] == f'<@{CREATOR_ID}>']                           # Gets all trades where the Currency Thing Bot is the one sending things
         mined = mined['SIZE'].sum()                                                     # Sums the size of currency things sent
 
         return mined
 
     
-    def get_trade_amount_by_time(self, hours:int = 24, user_only:bool = False) -> int:
+    def get_trade_amount_by_time(self, days:int = 1, user_only:bool = False, specified_user: str = None) -> int:
         '''
-        Returns the amount of trades that occured in the past h hours
+        Returns the TOTAL amount of trades that occured in the past days as an INT.
 
-        hours: amount of hours to subtract from current time. (default = 24)
+        days: amount of days to subtract from current datetime. (default = 1)
         user_only: only displays trades executed by users and not by the Currency Thing bot
+        specified_user: only displays trades involving this specified user
         '''
-        rows = self.get_trades_by_time(hours)                                           # Gets all the trades that occured in the last specified hours
+        rows = self.get_trades_by_time(days) if days else self.chain                    # checks entire blockchain, or last few days if "days" value is specified
 
         if user_only:
             rows = rows.loc[rows['INPUT'] != f'<@{CREATOR_ID}>']                        # Only count rows where the Currency Thing Bot was not involved
+        
+        if specified_user:
+            rows = rows.loc[(rows['INPUT'] == specified_user) | (rows['OUTPUT'] == specified_user)]    # Only count rows where the specified user was involved
 
         return len(rows.index)
     
 
-    def get_biggest_trade(self, hours:int = 0) -> int:
+    def get_biggest_trade(self, days:int = 0) -> int:
         '''
         Returns the trade with the largest size.
 
-        hours: if set, only counts trades in the last h hours. Otherwise, counts the entire blockchain
+        days: if set, only counts trades in the last X days. Otherwise, counts the entire blockchain.
         '''
-        rows = self.get_trades_by_time(hours) if hours else self.chain                  # checks entire blockchain if no time limit specified
+        rows = self.get_trades_by_time(days) if days else self.chain                    # checks entire blockchain if no time limit specified
         rows.sort_values('SIZE', ascending=False, inplace=True)                         # Sorts rows by trade size in descending order
+
+        if rows.empty: return 0                                                         # 0 in case there have been no trades in the specified timeframe
 
         return rows.iloc[0]['SIZE']
     
 
-    def get_trade_amount_by_day(self) -> pd.DataFrame:
+    def get_trade_data_by_day(self, user_only:bool = False, specific_user: str = None) -> pd.DataFrame:
         '''
-        Returns the quantity of transactions per day on the blockchain.
+        Returns the quantity of transactions PER DAY on the blockchain as a DataFrame.
+
+        user_only: only displays trades executed by users and not by the Currency Thing bot
         '''
         trades = self.chain.copy()
+
+        if user_only:
+            trades = trades.loc[trades['INPUT'] != f'<@{CREATOR_ID}>']                  # Only count rows where the Currency Thing Bot was not involved
+        
+        if specific_user:
+            trades = trades.loc[(trades['INPUT'] == specific_user) | (trades['OUTPUT'] == specific_user)]    # Only count rows where the specified user was involved
+
         trades['TIME'] = trades['TIME'].dt.date
         trades = trades.groupby('TIME').count()
         trades.drop(['ID', 'INPUT', 'OUTPUT', 'PREV_HASH'], axis=1, inplace=True)
@@ -119,7 +135,7 @@ class Blockchain:
         '''
         Returns the total amount of currency things in circulation per day.
         '''
-        INPUT = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']               # All currency things sent by this user
+        INPUT = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']               # All currency things sent by the Currency Thing bot (mined)
         INPUT['TIME'] = INPUT['TIME'].dt.date                                           # Converts the datetime to date
         INPUT.drop(['ID', 'INPUT', 'OUTPUT', 'PREV_HASH'], axis=1, inplace=True)        # Drops unnecessary columns
         supply = INPUT.groupby('TIME').sum()                                            # Sums all currency things mined per day
@@ -132,10 +148,41 @@ class Blockchain:
         '''
         Returns the total amount of currency things in circulation at each transaction ID
         '''
-        INPUT = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']               # All currency things sent by this user
+        INPUT = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']               # All currency things sent by the Currency Thing bot (mined)
         INPUT.drop(['ID', 'INPUT', 'OUTPUT', 'PREV_HASH', 'TIME'], axis=1, inplace=True)# Removes unnecessary columns
 
         return INPUT.cumsum()                                                           # cum
+    
+
+    def mined_per_day(self):
+        trades = self.chain.copy()
+        mined = trades.loc[trades['INPUT'] == f'<@{CREATOR_ID}>']                       # Gets all trades where the Currency Thing Bot is the one sending things
+        mined['TIME'] = mined['TIME'].dt.date                                           # Converts the datetime to date
+        mined = mined.groupby('TIME').sum()                                             # Groups by date and sums all size values at each day
+
+        return mined
+    
+
+    def biggest_trade_over_time(self):
+        '''
+        Finds the biggest trade size at every moment in the blockchain.
+        Returns a pandas dataframe.
+        '''
+        big_trades = []
+        biggest_trade = 0
+
+        for index, row in self.chain.iterrows():
+            size = row['SIZE']
+            if size > biggest_trade:
+                data = (row['ID'], size)
+                big_trades.append(data)
+                biggest_trade = size
+        
+        big_trades_df = pd.DataFrame(big_trades, columns=['ID', 'SIZE'])
+        big_trades_df.set_index('ID', inplace=True)
+
+        return big_trades_df
+
 
     
  
@@ -143,7 +190,7 @@ class Blockchain:
     
 
 
-    ### USER SPECIFIC STATS ######
+    ###### USER SPECIFIC STATS ##############################################################################################################
 
     # Gets the amount of currency things held by a user
     def get_balance(self, user: str) -> int:
@@ -309,6 +356,70 @@ class Blockchain:
         networth = networth.cumsum()                                                # Finally, the cumulative amount of currency things held at each point
 
         return networth
+    
+
+    
+    ###### USER ACHIEVEMENTS ##############################################################################################################
+    def who_mined_xth_thing(self, thing):
+        '''
+        Finds the user who mined the Nth currency thing. Returns the trade ID.
+
+        thing: the Nth thing.
+        '''
+        import users
+
+        df = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']              # All currency things sent by the Currency Thing bot (mined)
+        df['SUPPLY'] = self.supply_over_tx()['SIZE']                                # Adds the total supply at each point as a column to the dataframe
+
+        filter = df.loc[df['SUPPLY'] <= thing]                                      # Getting all trades where the supply is less than the amount we're looking for (anything after that is after the nth thing was mined, so the last trade before then was the miner)
+        winner = filter.tail(1)[['OUTPUT', 'TIME']]                                 # Gets the last row before the limit - the winner - only the Output and Time columns
+
+        winner.replace(users.replace_thing('mention', 'name'), inplace=True)        # Replacing user discord mention with username
+
+        # Getting the direct values
+        user = winner.iloc[0]['OUTPUT']
+        date = winner.iloc[0]['TIME'].date()
+        trade_id = winner.index.tolist()[0]
+        msg = f'Currency Thing #{thing} was mined by {user} on {date} / trade #{trade_id}'
+
+        print(msg)
+
+        # All we need for the website is the Trade ID. The other data could be used for the discord bot. Also maybe save this info to a file instead of checking every time?
+        return trade_id
+    
+
+    def who_giveth_more(self):
+        '''
+        Finds the user that has given away the most currency things to other users.
+        '''
+
+        sent = self.chain.groupby(['INPUT']).sum()                                      # INPUT Dataframe - sums all currency things SENT BY each user - where the user is on the INPUT  side of the trade
+        sent.drop(f'<@{CREATOR_ID}>', inplace=True)                                     # Dropping the Currency Thing Bot from the list
+        sent.drop('ID', axis=1, inplace=True)                                           # Dropping the trade ID sum: not needed
+        sent = sent.sort_values(by='SIZE', ascending=False)                             # Sorting values by biggest sum traded
+
+        big_giver = sent.head(1)                                                        # Getting the first value: the biggest giver
+
+        print('\n\n\n')
+        print(big_giver)
+
+
+    def who_mined_more(self):
+        '''
+        Finds the user who has mined the most currency things.
+        '''
+
+        filter = self.chain.loc[(self.chain['INPUT'] == f'<@{CREATOR_ID}>')]            # Filters rows where the INPUT was Currency Thing
+        miners_df = filter.groupby('OUTPUT').sum()                                      # Groups by OUTPUT user and sums the total
+        miners_df = miners_df.sort_values(by='SIZE', ascending=False).drop('ID', axis=1)# Sorts by ascending SIZE and drops the ID column
+    
+
+    # maybe also have weekly/monthly versions of these achievements?
+
+        
+
+        
+
 
 
         
