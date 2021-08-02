@@ -93,7 +93,7 @@
                     <h2>...<b id='stats-user_num'>{{STATS['user_num']}}</b> people holding</h2>
                 </div>
                 <div class="graph-container">
-                    <canvas id='chartjs' class="graph" height="350" width="400" style="margin-bottom: 5%;"></canvas>
+                    <canvas id='chartjs' class="graph" height="350" width="350" style="margin-bottom: 5%;"></canvas>
                 </div>
 
             </div>
@@ -105,6 +105,7 @@
                 </div>
                 <div class="graph-container">
                     <img src="/static/graphs/big_trades.svg" alt="line_chart.svg" class="graph">
+                    <!-- <canvas id='big-trade-chart' class="graph" height="400" width="500" style="margin-bottom: 5%;"></canvas> -->
                 </div>
             </div>
         </section>
@@ -183,6 +184,7 @@
 
         // Chart.defaults.plugins.legend.display = false;
 
+        // USER PIE CHART
         var chart_canvas = $('#chartjs')[0].getContext('2d')
         var chart =  new Chart(chart_canvas, {
             type:       'pie',
@@ -206,6 +208,67 @@
                 responsive : false
             }
         })
+
+        // BIG TRADE LINE CHART
+        // Chart.defaults.global.defaultFontColor = '#fff';
+        Chart.defaults.color = 'white';
+        
+        var chart_canvas = $('#big-trade-chart')[0].getContext('2d')
+        var chart = new Chart(chart_canvas, {
+            type:       'line',
+            data:        {
+                labels:     {{ LABELS_2 | safe}},
+                datasets:   [{
+                    label:  "This is the label",
+                    data:   {{ VALUES_2 | safe}},
+                    fill: true,
+                    borderColor: '#ff048c',
+                    backgroundColor: '#ff048c',
+                    tension: 0.1,
+                    pointRadius: 5,
+                    pointHitRadius: 20,
+                    tension: 0.5
+                }]
+            },
+            options:    {
+                responsive : false,
+                scaleFontColor: "green",
+                plugins: {
+                    legend: { display: false},
+                    title:  { display: true, text: 'Biggest Trade Over Time', color: 'white', font: {size: 32, family: 'Comic Sans MS'}}
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            display: false,
+                            drawBorder: true,
+                            color: 'white',
+                            zeroLineColor: "red",
+                            drawTicks: true,
+                            tickWidth: 2
+                        },
+                        ticks: {
+                            stepSize:100,
+                        }
+                    },
+                    y: {
+                        grid: {
+                            display: true,
+                            drawBorder: true,
+                            color: '#888',
+                            zeroLineColor: "red",
+                            drawTicks: true,
+                            tickWidth: 1
+                        },
+                        ticks: {
+                            color: 'white',
+                            stepSize:100,
+                        }
+                    }
+                }
+            }
+        });
+
     </script>
 
     <!-- BUTTONS -->

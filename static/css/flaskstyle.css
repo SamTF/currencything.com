@@ -15,7 +15,7 @@ body {
     /* FONT */
     /* font-family: 'Quicksand', sans-serif; */
     font-family: 'Comic Sans MS', sans-serif;
-    font-size: 2.2vmin;
+    font-size: 2.2vh;
 
     /* CURSOR */
     cursor: url('/static/cursors/cursor.png'), auto;
@@ -73,7 +73,7 @@ a {
     margin: 4vmin 0;
 
     width: 50vw;
-    min-width: 400px;
+    min-width: 300px;
 
     /* Shadow */
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
@@ -133,7 +133,7 @@ a {
 .button {
     /* FONT */
     font-family: 'Quicksand', sans-serif;
-    font-size: 1.5rem;
+    font-size: 2vh;
     color: #f15050;
 
     background: whitesmoke;
@@ -208,7 +208,7 @@ a {
 }
 .stat-card h2 {
     /* Text */
-    font-size: 2vmin;
+    font-size: 2vh;
     font-weight: normal;
     text-align: left;
 
@@ -336,20 +336,31 @@ a {
 /* MEDIA QUERIES */
 @media screen and (max-width: 900px) {
 
+    /* Currency Thing Logo needs to disappear */
     .logo {
         visibility: hidden;
     }
 
+    /* The left/right margins in the lage layout need to be gone */
     .page-layout {
         display: grid;
-        grid-template-columns: 4% 1fr 4%;
+        grid-template-columns: 0% 1fr 0%;
         place-items: center;
     }
 
+    /* The stat panels need to be stacked one per row */
     .currency-stats {
         /* GRID LAYOUT */
         display: grid;
         gap: 1rem;
         grid-template-columns: 1fr;
+    }
+
+    /* Changing the font size of the table text */
+    .blockchain-table th {
+        font-size: 2vh;
+    }
+    .blockchain-table tr {
+        font-size: 2vh;
     }
 }

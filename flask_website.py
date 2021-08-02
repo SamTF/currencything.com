@@ -46,7 +46,12 @@ def home():
     blockchain.who_giveth_more()
     blockchain.who_mined_more()
 
-    return render_template('flask_thing.html', TABLE=Markup(get_blockchain()), STATS=get_blockchain_stats(), LABELS=list(get_balance_all().keys()), VALUES=list(get_balance_all().values()))
+    big = blockchain.biggest_trade_over_time()
+    l = big.index.tolist()
+    v = big['SIZE'].tolist()
+    print(v)
+
+    return render_template('flask_thing.html', TABLE=Markup(get_blockchain()), STATS=get_blockchain_stats(), LABELS=list(get_balance_all().keys()), VALUES=list(get_balance_all().values()), LABELS_2=l, VALUES_2=v)
 
 # Domain variable! Use this to link to user's currency thing accounts, and then generate their data based on their ID
 @app.route('/@<username>')
@@ -108,10 +113,13 @@ def update_stats():
 # Function called from JQuery to get the Achievement trades - in future, save this to a file and read that instead of running the functions every time?
 @app.route('/get_achievements')
 def get_achievements():
-    achivement_numbers = [100, 1000, 2000, 3000, 4000, 5000]
+    i = str(blockchain.get_supply())[:-3]                                                       # removes the last 3 characters
+    thousands = int(i) * 1000                                                                   # multiplies the thousandth figures by 1000
+    
+    milestones = range(1000, thousands + 1000, 1000)
     
     # A list of tuples containing the Milestone reached, and the Trade ID where it was reached, for each milestone specified above
-    tup = tuple([(x, blockchain.who_mined_xth_thing(x)) for x in achivement_numbers])
+    tup = tuple([(x, blockchain.who_mined_xth_thing(x)) for x in milestones])
 
     return jsonify(tup)
 

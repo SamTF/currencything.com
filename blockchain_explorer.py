@@ -4,6 +4,9 @@
 import pandas as pd
 from datetime import datetime, timedelta
 
+# Suppressing the annoying SettingWithCopy warning
+pd.options.mode.chained_assignment = None
+
 # Constants
 BLOCKCHAIN = 'block.chain'              # the name of the local blockchain file stored on disk
 CREATOR_ID = 840976021687762955         # The User that sends rewards to miners
@@ -14,6 +17,13 @@ class Blockchain:
 
     # Initialising the class
     def __init__(self):
+        self.chain = pd.read_csv(BLOCKCHAIN)
+        self.chain['SIZE'] = pd.to_numeric(self.chain['SIZE'])                          # Converts the SIZE column into INT type; otherwise it assumes STRING type
+        self.chain['TIME'] = pd.to_datetime(self.chain['TIME'])                         # Converts the TIME column into datetime format
+    
+    
+    # Loading the blockchain file from disk again, to get latest changes
+    def reload_blockchain(self):
         self.chain = pd.read_csv(BLOCKCHAIN)
         self.chain['SIZE'] = pd.to_numeric(self.chain['SIZE'])                          # Converts the SIZE column into INT type; otherwise it assumes STRING type
         self.chain['TIME'] = pd.to_datetime(self.chain['TIME'])                         # Converts the TIME column into datetime format
@@ -173,14 +183,24 @@ class Blockchain:
 
         for index, row in self.chain.iterrows():
             size = row['SIZE']
+            
+            # short and simple version
             if size > biggest_trade:
                 data = (row['ID'], size)
-                big_trades.append(data)
                 biggest_trade = size
+                big_trades.append(data)
+            
+            # Extended version - needed for chartJS
+            # else:
+            #     data = (row['ID'], biggest_trade)
+            
+            # big_trades.append(data)
         
         big_trades_df = pd.DataFrame(big_trades, columns=['ID', 'SIZE'])
         big_trades_df.set_index('ID', inplace=True)
 
+        print('BIGGEST TRADE OVER TIME')
+        print(big_trades_df)
         return big_trades_df
 
 
