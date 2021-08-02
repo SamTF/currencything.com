@@ -363,4 +363,9 @@ a {
     .blockchain-table tr {
         font-size: 2vh;
     }
+
+    /* ANCHOR LINK BUTTONS */
+    .pixel-art {
+        visibility: hidden;
+    }
 }
