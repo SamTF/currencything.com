@@ -57,9 +57,6 @@ a {
     /* CENTERING THE TABLE */
     display: grid;
     place-items: center;
-
-    width: auto;
-    background: #c4178a;
 }
 
 /* MAIN TABLE */
