@@ -344,7 +344,7 @@ a {
     /* The left/right margins in the lage layout need to be gone */
     .page-layout {
         display: grid;
-        grid-template-columns: 5% 1fr 5%;
+        grid-template-columns: 0% 1fr 0%;
         place-items: center;
     }
 
@@ -354,7 +354,7 @@ a {
         display: grid;
         gap: 1rem;
         grid-template-columns: 1fr;
-        margin: 0% 5%;
+        /* margin: 0% 5%; */
     }
 
     /* Changing the font size of the table text */
