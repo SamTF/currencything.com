@@ -97,18 +97,51 @@ h2 {
 /* MEDIA QUERIES */
 @media screen and (max-width: 900px) {
 
+    /* No bottom margin because balance needs to break into the next line */
+    h1 {
+        margin-bottom: 0;
+    }
+
+    /* No margin and bigger font size */
+    h2 {
+        margin-bottom: 0;
+        font-size: 1.25vh;
+    }
+
+    /* Smaller Margins, more space for the avatar */
     .user-profile {
         margin: 4% 4%;
         grid-template-columns: 35% 1fr;
     }
 
+    /* Smaller avatar */
     .avatar {
         height: 20vmin;
     }
 
+    /* Displaying one stat per line left-aligned*/
     .user-info .stats {
         grid-template-columns: 1fr;
         place-items: start;
-        margin-left: 12.5%;
+        margin-left: 0%;
+    }
+
+    /* Margin on the sides so that they're not right at the edge */
+    .stat-panel {
+        margin: 0 50px;
+    }
+
+    /* More spacing before and after the graphs */
+    .currency-stats {
+        margin: 50px 0px;
+    }
+
+    /* Balance breaks into the next line left-aligned, needs good spacing */
+    .user-info .balance {
+        display: block;
+        font-size: 1.5vh;
+        text-align: left;
+        margin-top: 0;
+        margin-bottom: 20px;
     }
 }
