@@ -20,7 +20,6 @@ body {
     /* CURSOR */
     cursor: url('/static/cursors/cursor.png'), auto;
     /* cursor: url('/static/cursors/maxxer_cursor.png'), auto; */
-
 }
 
 h1 {
@@ -72,8 +71,8 @@ a {
     /* Margin */
     margin: 4vmin 0;
 
-    /* width: 50vw;
-    min-width: 300px; */
+    width: 50vw;
+    /* min-width: 350px; */
 
     /* Shadow */
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
@@ -81,7 +80,7 @@ a {
     /* COLOURS */
     background: #ffffff25;
     background: rgba(255, 255, 255, 0.7);
-    backdrop-filter: blur(3px);    
+    backdrop-filter: blur(3px);
 }
 
 /* TABLE HEADERS */
@@ -273,6 +272,8 @@ a {
     position: fixed;
     top: 2vmin;
     right: 2vmin;
+
+    background: black;
 }
 .anchor-buttons img {
     display: block;
@@ -354,7 +355,7 @@ a {
         display: grid;
         gap: 1rem;
         grid-template-columns: 1fr;
-        /* margin: 0% 5%; */
+        margin: 0 50px;
     }
 
     /* Changing the font size of the table text */
@@ -362,7 +363,7 @@ a {
         font-size: 2vh;
     }
     .blockchain-table tr {
-        font-size: 1.7vh;
+        font-size: 1.5vh;
     }
 
     /* ANCHOR LINK BUTTONS */
