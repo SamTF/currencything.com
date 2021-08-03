@@ -23,7 +23,7 @@ body {
 }
 
 h1 {
-    font-size: 6vmin;
+    font-size: 6vh;
     text-align: center;
     color: white;
 
@@ -57,6 +57,9 @@ a {
     /* CENTERING THE TABLE */
     display: grid;
     place-items: center;
+
+    width: auto;
+    background: #c4178a;
 }
 
 /* MAIN TABLE */
@@ -358,14 +361,23 @@ a {
 
     /* Changing the font size of the table text */
     .blockchain-table th {
-        font-size: 2vh;
+        font-size: 1.25vh;
+        text-align: center;
     }
     .blockchain-table tr {
-        font-size: 1.5vh;
+        font-size: 1vh;
     }
+
+    /* .blockchain-table img {
+        height: 1px;
+    } */
 
     /* ANCHOR LINK BUTTONS */
     .pixel-art {
         visibility: hidden;
+    }
+
+    .buttons-container {
+        margin-bottom: 25px;
     }
 }
