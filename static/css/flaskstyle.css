@@ -72,8 +72,8 @@ a {
     /* Margin */
     margin: 4vmin 0;
 
-    width: 50vw;
-    min-width: 300px;
+    /* width: 50vw;
+    min-width: 300px; */
 
     /* Shadow */
     box-shadow: 0 0 20px rgba(0, 0, 0, 1);
@@ -344,7 +344,7 @@ a {
     /* The left/right margins in the lage layout need to be gone */
     .page-layout {
         display: grid;
-        grid-template-columns: 0% 1fr 0%;
+        grid-template-columns: 5% 1fr 5%;
         place-items: center;
     }
 
@@ -354,6 +354,7 @@ a {
         display: grid;
         gap: 1rem;
         grid-template-columns: 1fr;
+        margin: 0% 5%;
     }
 
     /* Changing the font size of the table text */
@@ -361,7 +362,7 @@ a {
         font-size: 2vh;
     }
     .blockchain-table tr {
-        font-size: 2vh;
+        font-size: 1.7vh;
     }
 
     /* ANCHOR LINK BUTTONS */
