@@ -6,6 +6,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Link embed stuff -->
+    <meta property="og:site_name"   content="currencything.com">                        <!-- Top of the embed -->
+    <meta property="og:title"       content="{{USERNAME}}'s Currency Things">           <!-- Big Bold Letters -->
+    <meta property="og:description" content="has {{STATS['balance']}} currency things! 💰"><!-- Subtitle, smaller, under title -->
+    <meta property="og:image"       content="https://i.imgur.com/6YVudP5.png">          <!-- Cool lil thumbnail to the side! :) -->
+    <meta property="og:url"         content="http://www.currencything.com">             <!-- Link when you click on the title -->
+    <meta name="theme-color"        content="#E52B50">                                  <!-- Embed sidebar colour! -->
+
     <!-- Stylesheets -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flaskstyle.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/user.css') }}">
@@ -18,7 +26,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Tab Title -->
-    <title>{{USERNAME}}'s' page</title>
+    <title>{{USERNAME}}'s page</title>
 </head>
 <body>
     <!-- TOP ANCHOR -->

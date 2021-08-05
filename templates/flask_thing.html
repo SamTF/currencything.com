@@ -6,6 +6,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <!-- Link embed stuff! BIG WOW IT WORKS!!! -->
+    <meta property="og:site_name"   content="currencything.com">                        <!-- Top of the embed -->
+    <meta property="og:title"       content="Currency Thing Blockchain Explorer">       <!-- Big Bold Letters -->
+    <meta property="og:description" content="What is this, some kinda currency thing? 🤡"><!-- Subtitle, smaller, under title -->
+    <meta property="og:image"       content="https://i.imgur.com/o1iOHhl.png">          <!-- Cool lil thumbnail to the side! :) -->
+    <meta property="og:url"         content="http://www.currencything.com">             <!-- Link when you click on the title -->
+    <meta name="theme-color"        content="#E52B50">                                  <!-- Embed sidebar colour! -->
+    <meta name="twitter:card"       content="summary_large_image">                      <!-- BIG image -->
+
     <!-- Main CSS Stylesheet -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/flaskstyle.css') }}">
 
@@ -208,70 +217,13 @@
             }
         })
 
-        // BIG TRADE LINE CHART
-        // Chart.defaults.global.defaultFontColor = '#fff';
-        Chart.defaults.color = 'white';
-        
-        var chart_canvas = $('#big-trade-chart')[0].getContext('2d')
-        var chart = new Chart(chart_canvas, {
-            type:       'line',
-            data:        {
-                labels:     {{ LABELS_2 | safe}},
-                datasets:   [{
-                    label:  "This is the label",
-                    data:   {{ VALUES_2 | safe}},
-                    fill: true,
-                    borderColor: '#ff048c',
-                    backgroundColor: '#ff048c',
-                    tension: 0.1,
-                    pointRadius: 5,
-                    pointHitRadius: 20,
-                    tension: 0.5
-                }]
-            },
-            options:    {
-                responsive : false,
-                scaleFontColor: "green",
-                plugins: {
-                    legend: { display: false},
-                    title:  { display: true, text: 'Biggest Trade Over Time', color: 'white', font: {size: 32, family: 'Comic Sans MS'}}
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false,
-                            drawBorder: true,
-                            color: 'white',
-                            zeroLineColor: "red",
-                            drawTicks: true,
-                            tickWidth: 2
-                        },
-                        ticks: {
-                            stepSize:100,
-                        }
-                    },
-                    y: {
-                        grid: {
-                            display: true,
-                            drawBorder: true,
-                            color: '#888',
-                            zeroLineColor: "red",
-                            drawTicks: true,
-                            tickWidth: 1
-                        },
-                        ticks: {
-                            color: 'white',
-                            stepSize:100,
-                        }
-                    }
-                }
-            }
-        });
-
     </script>
 
     <!-- BUTTONS -->
     <script src="/static/js/buttons.js"></script>
+
+    <!-- ACHIEVEMENTS -->
+    <script src="/static/js/achievements.js"></script>
 
     <!-- SOUND EFFECTS -->
     <script>
@@ -306,8 +258,7 @@
         })
     </script>
 
-    <!-- ACHIEVEMENTS -->
-    <script src="/static/js/achievements.js"></script>
+    
     
 </body>
 </html>
