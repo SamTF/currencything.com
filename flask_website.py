@@ -43,15 +43,10 @@ def home():
     graph_dealer.plot_line_chart(blockchain.get_trade_data_by_day(True),    'user_trades',  'User Trades Over Time',    'Date',         '# Of Trades',      True)
     graph_dealer.plot_line_chart(blockchain.biggest_trade_over_time(),      'big_trades',   'Biggest Trade Over Time',  '# of Trades',  'Trade Size',       False)
 
-    blockchain.who_giveth_more()
-    blockchain.who_mined_more()
+    # blockchain.who_giveth_more()
+    # blockchain.who_mined_more()
 
-    big = blockchain.biggest_trade_over_time()
-    l = big.index.tolist()
-    v = big['SIZE'].tolist()
-    print(v)
-
-    return render_template('flask_thing.html', TABLE=Markup(get_blockchain()), STATS=get_blockchain_stats(), LABELS=list(get_balance_all().keys()), VALUES=list(get_balance_all().values()), LABELS_2=l, VALUES_2=v)
+    return render_template('flask_thing.html', TABLE=Markup(get_blockchain()), STATS=get_blockchain_stats(), LABELS=list(get_balance_all().keys()), VALUES=list(get_balance_all().values()))
 
 # Domain variable! Use this to link to user's currency thing accounts, and then generate their data based on their ID
 @app.route('/@<username>')
