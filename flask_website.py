@@ -46,6 +46,9 @@ def home():
     # blockchain.who_giveth_more()
     # blockchain.who_mined_more()
 
+    # Reads the blockchain file from disk again to catch any changes. Hopefully this won't somehow overload the VM disk with read operations.
+    blockchain.reload_blockchain()
+
     return render_template('flask_thing.html', TABLE=Markup(get_blockchain()), STATS=get_blockchain_stats(), LABELS=list(get_balance_all().keys()), VALUES=list(get_balance_all().values()))
 
 # Domain variable! Use this to link to user's currency thing accounts, and then generate their data based on their ID
