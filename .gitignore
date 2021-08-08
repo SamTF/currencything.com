@@ -2,4 +2,7 @@
 __pycache__/
 
 ### DYNAMIC GRAPHS
-graphs/
+/static/graphs/
+
+### don't delete my fucking blockchain
+block.chain
