@@ -224,7 +224,7 @@ def get_user_graphs(user: str):
     networth_graph = graph_dealer.plot_networth(networth_data)
 
     trades = blockchain.get_trade_data_by_day(True, user)
-    trades_graph = graph_dealer.plot_line_chart(trades, 'tx', 'Trades Per Day', 'Day', date_index=True)
+    trades_graph = graph_dealer.plot_line_chart(trades, 'tx', 'Trades Per Day', 'Day', '# Of Trades', date_index=True)
 
 
 

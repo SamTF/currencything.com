@@ -126,15 +126,6 @@
             {{TABLE}}
         </div>
 
-        <div class="buttons-container">
-            <div class="buttons">
-                <button class="button" id='frst-page'> ⏮ </button>
-                <button class="button" id='prev-page'>⏴</button>
-                <p class="page-number"><a href="#top">top</a></p>
-                <button class="button" id="next-page">⏵</button>
-                <button class="button" id='last-page'> ⏭ </button>
-            </div>
-        </div>
         <div id="bottom"></div>
 
         <br><br><br>
@@ -142,36 +133,12 @@
     </section>
     
     <!-- SCROLL BUTTONS -->
-    <section title="right-margin" class="anchor-buttons">
-        <a href="#top"      id="scroll-up"  ><img src="/static/images/up_arrow_2.png"   height="64px" class="pixel-art"></a>
-        <a href="#bottom"   id='scroll-down'><img src="/static/images/down_arrow_2.png" height="64px" class="pixel-art"></a>
+    <section class="anchor-buttons">
+        <!-- <a href="#top"      id="scroll-up"  ><img src="/static/images/up_arrow_2.png"   height="64px" class="pixel-art"></a> -->
+        <!-- <a href="#bottom"   id='scroll-down'><img src="/static/images/down_arrow_2.png" height="64px" class="pixel-art"></a> -->
+        <img src="/static/images/up_arrow_2.png" height="64px" class="pixel-art clickable" id="scroll-up">
+        <img src="/static/images/down_arrow_2.png" height="64px" class="pixel-art clickable" id="scroll-down">
     </section>
-
-    <!-- SOUND EFFECTS -->
-    <!-- Click1 -->
-    <audio id="sfx_click1" preload="auto">
-        <source src="/static/sfx/click1.ogg">
-    </audio>
-    <!-- Click2 -->
-    <audio id="sfx_click2" preload="auto">
-        <source src="/static/sfx/click2.ogg">
-    </audio>
-    <!-- Scroll Down -->
-    <audio id="sfx_scroll_down" preload="auto">
-        <source src="/static/sfx/filesspill1.mp3">
-    </audio>
-    <!-- Scroll Up -->
-    <audio id="sfx_scroll_up" preload="auto">
-        <source src="/static/sfx/filesspill2.mp3">
-    </audio>
-    <!-- Open Window -->
-    <audio id="sfx_open" preload="auto">
-        <source src="/static/sfx/openwindow.ogg">
-    </audio>
-    <!-- Close Window -->
-    <audio id="sfx_close" preload="auto">
-        <source src="/static/sfx/close.ogg">
-    </audio>
 
 
     <!-- GRAPHS -->
@@ -226,37 +193,10 @@
     <script src="/static/js/achievements.js"></script>
 
     <!-- SOUND EFFECTS -->
-    <script>
-        var click_1SFX      = $("#sfx_click1")[0];
-        var click_2SFX      = $("#sfx_click2")[0];
-        var clicks = [click_1SFX, click_2SFX]
+    <script src="/static/js/play_sfx.js"></script>
 
-        var scroll_downSFX  = $("#sfx_scroll_down")[0];
-        var scroll_upSFX    = $("#sfx_scroll_up")[0];
-
-        var open_window     = $("#sfx_open")[0];
-        var close_window    = $("#sfx_close")[0];
-
-        var click_count = 0;
-        $(document).click(function() {
-            click_count++;
-            var i = click_count % 2;
-            clicks[i].play();
-            console.log("PLAY SFX");
-        });
-
-        $("#scroll-down").click(function() {
-            scroll_downSFX.play()
-        })
-        $("#scroll-up").click(function() {
-            scroll_upSFX.play()
-        })
-
-        $(".stat-panel").click(function() {
-            $("#sfx_open")[0].play()
-            // open_window.play()
-        })
-    </script>
+    <!-- SCROLLING WITHOUT URL CHANGES -->
+    <script src="/static/js/scroll.js"></script>
 
     
     
