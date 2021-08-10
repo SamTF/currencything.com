@@ -115,8 +115,8 @@ def plot_bar_chart(data: pd.DataFrame, file_name: str, title: str, xlabel: str =
     # formats dates nicely if the axis values are indeed dates - CONVERTING IT TO STRING REMOVES ALL THE EMPTY SPACE BETWEEN VALUES
     xaxis = data.index.astype(str) if not date_index else format_dates(data.index)
 
-    # plotting the values 
-    plt.bar(xaxis, data['SIZE'], color = 'xkcd:hot pink')
+    # plotting the values : needs a zorder to be rendered on top of the gridlines
+    plt.bar(xaxis, data['SIZE'], color = 'xkcd:hot pink', zorder=3)
 
     # Titles
     plt.title(title,    fontdict={'fontname': 'Comic Sans MS', 'fontsize': 20, 'color': 'white'})
@@ -133,6 +133,9 @@ def plot_bar_chart(data: pd.DataFrame, file_name: str, title: str, xlabel: str =
     # Amount of ticks
     if date_index:
         ax.xaxis.set_major_locator(plt.MaxNLocator(6))  # sets a maximum amount of 6 ticks on the X Axis
+
+    # Adding gridlines - with z-order of 0 to be behind the bars
+    plt.grid(axis='y', color = 'gray', linestyle = '--', linewidth = 0.5, zorder=0)
 
     # Saving the graph as an SVG
     plt.savefig(FILE_PATH.format(file_name), transparent=True)

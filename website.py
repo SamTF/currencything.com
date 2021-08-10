@@ -41,7 +41,7 @@ def home():
     graph_dealer.plot_line_chart(blockchain.mined_per_day(),                'mined',        'Things Mined Per Day',     'Date',         '₡urrency Things',  True)
     graph_dealer.plot_line_chart(blockchain.get_trade_data_by_day(),        'trades',       'Trades Over Time',         'Date',         '# Of Trades',      True)
     graph_dealer.plot_line_chart(blockchain.get_trade_data_by_day(True),    'user_trades',  'User Trades Over Time',    'Date',         '# Of Trades',      True)
-    graph_dealer.plot_bar_chart(blockchain.biggest_trade_over_time(),      'big_trades',   'Biggest Trade Over Time',  '# of Trades',  'Trade Size',       False)
+    graph_dealer.plot_bar_chart(blockchain.biggest_trade_over_time(),       'big_trades',   'Biggest Trade Over Time',  'Trade ID',     'Trade Size',       False)
 
     # blockchain.who_giveth_more()
     # blockchain.who_mined_more()
@@ -111,13 +111,17 @@ def update_stats():
 # Function called from JQuery to get the Achievement trades - in future, save this to a file and read that instead of running the functions every time?
 @app.route('/get_achievements')
 def get_achievements():
-    i = str(blockchain.get_supply())[:-3]                                                       # removes the last 3 characters
-    thousands = int(i) * 1000                                                                   # multiplies the thousandth figures by 1000
+    ### OLD METHOD
+    # i = str(blockchain.get_supply())[:-3]                                                       # removes the last 3 characters
+    # thousands = int(i) * 1000                                                                   # multiplies the thousandth figures by 1000
     
-    milestones = range(1000, thousands + 1000, 1000)
+    # milestones = range(1000, thousands + 1000, 1000)
     
-    # A list of tuples containing the Milestone reached, and the Trade ID where it was reached, for each milestone specified above
-    tup = tuple([(x, blockchain.who_mined_xth_thing(x)) for x in milestones])
+    # # A list of tuples containing the Milestone reached, and the Trade ID where it was reached, for each milestone specified above
+    # tup = tuple([(x, blockchain.who_mined_xth_thing(x)) for x in milestones])
+
+    ### NEW METHOD
+    tup = blockchain.get_mining_milestones()
 
     return jsonify(tup)
 

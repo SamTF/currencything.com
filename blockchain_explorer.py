@@ -199,8 +199,6 @@ class Blockchain:
         big_trades_df = pd.DataFrame(big_trades, columns=['ID', 'SIZE'])
         big_trades_df.set_index('ID', inplace=True)
 
-        print('BIGGEST TRADE OVER TIME')
-        print(big_trades_df)
         return big_trades_df
 
 
@@ -380,7 +378,17 @@ class Blockchain:
 
     
     ###### USER ACHIEVEMENTS ##############################################################################################################
-    def who_mined_xth_thing(self, thing):
+    def get_thousands(self, supply) -> int:
+        '''
+        Rounds down the thing supply to the nearest thousand.
+        '''
+        i = str(supply)[:-3]                                                        # removes the last 3 characters
+        thousands = int(i) * 1000                                                   # multiplies the thousandth figures by 1000
+
+        return thousands
+
+
+    def who_mined_xth_thing(self, thing: int, supply_over_tx: pd.DataFrame):
         '''
         Finds the user who mined the Nth currency thing. Returns the trade ID.
 
@@ -389,7 +397,7 @@ class Blockchain:
         import users
 
         df = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']              # All currency things sent by the Currency Thing bot (mined)
-        df['SUPPLY'] = self.supply_over_tx()['SIZE']                                # Adds the total supply at each point as a column to the dataframe
+        df['SUPPLY'] = supply_over_tx['SIZE']                                       # Adds the total supply at each point as a column to the dataframe
 
         filter = df.loc[df['SUPPLY'] <= thing]                                      # Getting all trades where the supply is less than the amount we're looking for (anything after that is after the nth thing was mined, so the last trade before then was the miner)
         winner = filter.tail(1)[['OUTPUT', 'TIME']]                                 # Gets the last row before the limit - the winner - only the Output and Time columns
@@ -405,8 +413,49 @@ class Blockchain:
         print(msg)
 
         # All we need for the website is the Trade ID. The other data could be used for the discord bot. Also maybe save this info to a file instead of checking every time?
-        return trade_id
+        # return trade_id
+
+        # New file-based version
+        return thing, user, trade_id, date
+
     
+    def get_mining_milestones(self):
+        '''
+        Finds out who mined every 1000th currency thing by reading a pre-calculated CSV, and only updating it when a new milestone is reached.
+        Returns a list of tuples formatted as (Thing#, Trade ID)
+        '''
+
+        # getting the latest thousandth thing milestone
+        latest_thousand = self.get_thousands(self.get_supply())
+        milestones      = range(1000, latest_thousand + 1000, 1000)
+
+        # loading the milestones dataframe from disk OR creating it if it doesn't exist
+        try:
+            milestones_df           = pd.read_csv('milestones.csv', index_col=0)
+            milestones_df['DATE']   = pd.to_datetime(milestones_df['DATE'])
+        except:
+            milestones_df = pd.DataFrame(columns=['MILESTONE', 'USER', 'ID', 'DATE']).set_index('MILESTONE')
+
+
+        # Checks if the Milestones DF on disk is up to date. If not, updates it and overwrites it.
+        if not latest_thousand in milestones_df.index:
+            print('[EXPLORER] >>> Updating Milestones.CSV')
+            
+            # An array storing the thing number, the user who mined it, and its trade ID and date
+            supply_over_tx = self.supply_over_tx()
+            achievements = [(self.who_mined_xth_thing(x, supply_over_tx)) for x in milestones]
+            
+            # Converting the list of tuples into a dataframe and saving it to disk
+            milestones_df = pd.DataFrame(achievements, columns=['MILESTONE', 'USER', 'ID', 'DATE']).set_index('MILESTONE')
+            milestones_df.to_csv('milestones.csv')
+    
+
+        # Returning a list of tuples as (Thing#, ID)
+        return list(milestones_df['ID'].items())
+
+
+
+
 
     def who_giveth_more(self):
         '''
