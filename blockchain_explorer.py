@@ -399,8 +399,8 @@ class Blockchain:
         df = self.chain.loc[self.chain['INPUT'] == f'<@{CREATOR_ID}>']              # All currency things sent by the Currency Thing bot (mined)
         df['SUPPLY'] = supply_over_tx['SIZE']                                       # Adds the total supply at each point as a column to the dataframe
 
-        filter = df.loc[df['SUPPLY'] <= thing]                                      # Getting all trades where the supply is less than the amount we're looking for (anything after that is after the nth thing was mined, so the last trade before then was the miner)
-        winner = filter.tail(1)[['OUTPUT', 'TIME']]                                 # Gets the last row before the limit - the winner - only the Output and Time columns
+        filter = df.loc[df['SUPPLY'] >= thing]                                      # Getting all trades where the supply is MORE than the amount we're looking for (the first trade after the thousandth milestone is the winner)
+        winner = filter.head(1)[['OUTPUT', 'TIME']]                                 # Gets the first row after the limit - the winner - only the Output and Time columns
 
         winner.replace(users.replace_thing('mention', 'name'), inplace=True)        # Replacing user discord mention with username
 
@@ -411,6 +411,8 @@ class Blockchain:
         msg = f'Currency Thing #{thing} was mined by {user} on {date} / trade #{trade_id}'
 
         print(msg)
+
+        df.to_csv("blockchain_and_supply_ii.csv")
 
         # All we need for the website is the Trade ID. The other data could be used for the discord bot. Also maybe save this info to a file instead of checking every time?
         # return trade_id
