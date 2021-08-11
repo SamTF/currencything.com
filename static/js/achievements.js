@@ -27,9 +27,6 @@ function highlight_achievement(item) {
     
     desc = `🏆 Achievement! 🎇 The ${achievement}th Currency Thing! 🥳🎉`      // the description displayed on the achievement tooltip
     row.attr('data-achievement', desc)                                          // adds the description as an attribute to be read in the CSS content property
-
-    console.log(`Search type: ${method}`)
-    console.log(row)
 }
 
 // Finding the wanted row
