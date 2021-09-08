@@ -1,4 +1,4 @@
-# currencything.com 🤡
+# [currencything.com](https://currencything.com/) 🤡
 A website that tracks the Currency Thing discord blockchain. It also generates:
 - General blockchain statistics filterable by time period
 - Cool graphs with nice info
